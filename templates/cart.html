@@ -1,0 +1,119 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1 class="pl-3 pt-3">Корзина</h1>
+
+<div class="cart_container">
+	{% if cart %}
+		{% for good in cart%}
+			<div class="media">
+			  <img src="{{config['THUMBNAIL_FOLDER']}}/{{good['good'].img}}" style="max-width: 64px;" class="mr-3">
+			  <div class="media-body">
+			    <h5 class="mt-0">{{good['good'].category.name}} {{good['good'].title.lower()}}</h5>
+			    <div class="row mr-0">
+			    	<div class="col">
+			    		{% if good['good'].category.has_pita %}
+			    		<div class="input-group mb-3">
+			    			<div class="input-group-prepend">
+    							<span class="input-group-text" id="basic-addon1">Лаваш:</span>
+  							</div>
+							  <select class="custom-select" id="pita_type_{{good['good'].id}}" name="pita_type" onchange="updateInCart({{good['good'].id}})">
+							  	{% for pita in pitas %}
+							  		<option {% if pita.id == good['pita'] %} selected {% endif %} value="{{pita.id}}">
+							  			{{pita.name}}
+							  		</option>
+							  	{% endfor %}
+							  </select>
+							</div>
+							{% endif %}
+			    	</div>
+			    	<div class="col">
+			    		<div class="input-group mb-3">
+			    			<div class="input-group-prepend">
+    							<span class="input-group-text" id="basic-addon1">Кол-во:</span>
+  							</div>
+								<input onchange="updateInCart({{good['good'].id}})" type="number" step='1' min='1' class="form-control" placeholder="Кол-во" value="{{good['amount']}}" id="good_amount_{{good['good'].id}}">
+							</div>
+			    	</div>
+			    	<div class="col">
+			    		<p class="price"><span id="price_{{good['good'].id}}">{{good['price']}}</span>₽</p>
+			    	</div>
+			    	<div class="col">
+			    		<form action="/pop_cart_good?id={{good['good'].id}}" class="hide-submit" method="POST">
+							  <label>
+							    <input type="submit" />
+							    <svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    								<path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+									</svg>
+							  </label>
+							</form>
+						</div>
+			    </div>
+			  </div>
+			</div>
+			<hr>
+		{% endfor %}
+		<form action="/confirm_order" method="POST">
+			<div class="row cart-input" >
+				<input type="text" class="form-control" placeholder="Номер телефона" name="phone_number" required>
+			</div>
+			<div class="row cart-input" >
+				<input type="text" class="form-control" placeholder="Адрес доставки" name="address" required>
+			</div>
+			<div class="row cart-input">
+				<textarea type="text" class="form-control" placeholder="Комментарий к заказу" name="comment"></textarea>
+			</div>
+		{% else %}
+			<h3>Корзина пуста</h3>
+			<h4>Добавьте что-нибудь из меню</h4>
+		{% endif %}
+
+		<div class="row mt-5">
+			<div class="col">
+				<h2 class="summ">Сумма заказа: <span class="price"><span id="summ">{{summ}}</span> ₽<span></h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<a class="btn btn-outline-primary" href="/">Вернуться в меню</a>
+			</div>
+			<div class="col">
+				<button type="submit" class="ml-50p btn btn-success {% if not cart %} disabled {% endif %}">Заказать</button>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+	function updateInCart(good_id) {
+
+		var good_amount = $("#good_amount_"+good_id).val();
+		console.log(good_amount)
+
+		var pita = $( "#pita_type_"+good_id ).val();
+
+		var data = {'good_id':good_id, 'amount':parseInt(good_amount), 'pita':parseInt(pita)};
+
+		$.ajax({
+	    type : "POST",
+	    url : "{{ url_for('update_good_cart')}}",
+	    data: JSON.stringify(data, null, '\t'),
+	    contentType: 'application/json;charset=UTF-8',
+	    success: function(result) {
+	      var result = JSON.parse(result);
+	      console.log(result);
+	      var good = result["updated_good"];
+	      $('#price_'+good["good_id"]).text(good["price"]);
+	      $('#summ').text(result["summ"]);
+	    }
+	  });
+	};
+
+</script>
+
+{% endblock %}

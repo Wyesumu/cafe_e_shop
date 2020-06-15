@@ -1,0 +1,158 @@
+.jumbotron{
+	height: 400px;
+	padding-bottom: 0;
+}
+
+.bg-image{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-trans {
+	background-color: #ffffff00;
+}
+
+.grad {
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
+}
+
+.nav-link {
+	color: #fff !important;
+	padding: 1.618em 1em;
+	font-size: 1.2em;
+	font-weight: 600;
+}
+
+.cart {
+	font-size: 1.2em;
+	font-weight: 600;
+}
+
+.price {
+	font-size: 1.2em;
+	font-weight: 600;
+	color: #d06c02;
+}
+
+.nav-link:hover {
+	color: lightgray !important;
+}
+
+.container-fluid {
+	background-color: #f8f8f8;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.menu-float {
+	top: 0;
+	width: 100%;
+	height: 8%;
+	z-index:1000;
+	background-color: white !important;
+	border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+.link-float {
+	color: black !important;
+}
+
+.link-float:hover {
+	color: gray !important;
+}
+
+.custom-logo-fixed {
+	width: 100%;
+	/*margin-top: 20px;*/
+}
+
+@media(max-width: 576px){
+	.navbar-bg-white-sm {
+		background-color: white !important;
+		z-index:1000;
+		height: auto !important;
+	}
+}
+@media(max-width: 576px){
+	.navlink-black-sm {
+		color: black !important;
+		padding: .5em .5em;
+	}
+}
+
+@media(max-width: 576px){
+	.logo-container-fixed {
+		width: 15%;
+		cursor: pointer;
+	}
+}
+
+@media(min-width: 576px){
+	.logo-container-fixed {
+		width: 4%;
+		cursor: pointer;
+	}
+}
+
+@media(max-width: 576px){
+	.nav-dropdown {
+		margin-right: -10%;
+    	padding-left: 5%;
+    	margin-left: -5%;
+	}
+}
+
+.card-custom {
+	min-width: 15rem; 
+	max-width: 18rem;
+	margin-top: 1rem;
+	margin-left: 2rem !important;
+	margin-right: 0 !important;
+}
+
+.w-35{
+	width: 35% !important;
+}
+
+.ml-50p {
+	margin-left: 50% !important;
+}
+
+.site-footer{
+	background-color: #f0f0f0;
+	padding: 1.618em 0;
+}
+
+.bgc-gray {
+	background-color: #f0f0f0;
+}
+
+@media(min-width: 576px){
+	.cart_container{
+	    width: 80%;
+	    margin-left: 15%;
+	    margin-right: 15%;
+	}
+}
+
+@media(min-width: 576px){
+	.cart-input{
+		max-width: 50% !important;
+		margin-left: 25% !important;
+	}
+}
+@media(max-width: 576px){
+	.cart-input{
+		margin-left: 5% !important;
+		margin-right: 5% !important;
+	}
+}
+
+@media(min-width: 576px){
+	.summ{
+		margin-left: 50% !important;
+	}
+}
+
+form.hide-submit input[type="submit"] { display: none;}

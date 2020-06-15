@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/static/favicon.ico">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    {% block header %}{% endblock %}
+  </head>
+  <body>
+    <div class="container-fluid">
+      <a id="top"></a>
+      <header>
+          {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+              {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {%endfor%}
+        </header>
+
+      <div class="jumbotron jumbotron-fluid bg-image d-flex flex-column">
+        <div class="container">
+          <a class="logo-container" href="/">
+            <img src="/{{settings['logo']}}" class="custom-logo" itemprop="logo">
+          </a>
+        </div>
+        <div class="mt-auto grad">
+        <nav class="navbar navbar-expand-sm navbar-light bg-trans menu navbar-bg-white-sm">
+          <div class="nav-item logo-container-fixed d-none" onclick="$('body,html').animate({scrollTop: $('#top').offset().top}, 800); $('.nav-dropdown').removeClass('show');">
+          </div>
+
+          <button class="navbar-toggler bg-light ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse navbar-bg-white-sm nav-dropdown" id="navbarNav">
+            <ul class="navbar-nav" id="menu">
+              {% for cat in categories%}
+              <li class="nav-item active">
+                <a class="nav-link navlink-black-sm" onclick="$('.nav-dropdown').removeClass('show');" href="/#category{{cat.id}}">{{cat.name}}</a>
+              </li>
+              {% endfor%}
+            </ul>
+            <ul class="navbar-nav">
+              {% for page in pages%}
+              <li class="nav-item active">
+                <a class="nav-link navlink-black-sm" href="/pages/{{page.id}}">{{page.name}}</a>
+              </li>
+              {% endfor%}
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="cart btn btn-success" id='cart' href="/cart">
+                  Корзина 
+                  <span id='good_amount_cart' class="badge badge-light">{{cart_amount}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      </div>
+
+      <div class="content pb-5">
+        {% block content %}{% endblock %}
+      </div>
+
+      <footer class="site-footer">
+        <div class="row ml-3 mr-3">
+          <div class="col text-muted">
+            <p>{{settings.footer_text}}</p>
+            <p>
+              <b>{{settings.address}}</b>
+              </br>
+              Телефон доставки {{settings.phone}}
+            </p>
+          </div>
+          <div class="col">
+            <ul class="list-group list-group-flush">
+              {% for cat in categories%}
+              <li class="list-group-item bgc-gray">
+                <a class="text-muted" href="/#category{{cat.id}}">{{cat.name}}</a>
+              </li>
+              {% endfor%}
+            </ul>
+          </div>
+          <div class="col">
+            <ul class="list-group list-group-flush">
+              {% for page in pages%}
+              <li class="list-group-item bgc-gray">
+                <a class="text-muted" href="/pages/{{page.id}}">{{page.name}}</a>
+              </li>
+              {% endfor%}
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <!--<script src = "/static/bootstrap.js"></script>-->
+      <script src="/static/js/parent-to-animate.js"></script>
+
+      <script type="text/javascript">
+        $(function() {
+          menu_top = $('.menu').offset().top+55;
+          $(window).scroll(function () {
+            if ($(window).scrollTop() > menu_top) {
+              if ($('.menu').css('position') != 'fixed') {
+                $('.menu').css('position','fixed');
+                $('.menu').addClass("menu-float");
+                $('.nav-link').addClass("link-float");
+                $('.logo-container-fixed').removeClass('d-none');
+                $('.custom-logo').parentToAnimate($('.logo-container-fixed'), 1);
+                $('.custom-logo').addClass('custom-logo-fixed')
+              }
+            } else {
+              if ($('.menu').css('position') == 'fixed') {
+                $('.menu').css('position','');
+                $('.menu').removeClass("menu-float");
+                $('.nav-link').removeClass("link-float");
+                $('.custom-logo').parentToAnimate($('.logo-container'), 250);
+                $('.logo-container-fixed').addClass('d-none');
+                $('.custom-logo').removeClass("custom-logo-fixed");
+              }
+            }
+          });
+        });
+      </script>
+      {% block script%}{%endblock%}
+    </div>
+  </body>
+
+<style type="text/css">
+  .bg-image{
+    background-image: url(/{{settings['background']}});
+  }
+</style>
+
+</html>

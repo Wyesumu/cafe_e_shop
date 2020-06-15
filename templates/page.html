@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1 class="pl-3 pt-3">{{page.name}}</h1>
+
+<div class="ml-3 mt-3">
+	{{page.content | safe}}
+</div>
+
+{% endblock %}

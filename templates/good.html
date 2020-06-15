@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1 class="pl-3 pt-3">{{good.category.name}} {{good.title.lower()}}</h1>
+
+<div class="row mr-0">
+	<div class="col">
+		<img class="align-self-start ml-3 w-100" src="/{{config['UPLOAD_FOLDER']}}/{{good.img}}">
+	</div>
+	<div class="col mr-4 ml-4">
+		<p class="price">{{good.price}} ₽</p>
+		{% if good.details %}
+			<p>{{good.details}}</p>
+		{% endif %}
+		<p>{{good.weight}}</p>	
+		<div class="input-group mb-3 w-35 ml-auto">
+	  		<input type="number" step='1' min='1' class="form-control" placeholder="Кол-во" aria-describedby="button-addon1" value="1">
+	  		<div class="input-group-append">
+	    		<button class="btn btn-outline-success" type="button" id="button-addon1">В корзину</button>
+	  		</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
